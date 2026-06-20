@@ -1,0 +1,167 @@
+/* SigNote 官網共用樣式。牛皮紙暖色 + 手繪 die-cut 貼紙感，呼應 App ICON。純 CSS、無框架。 */
+:root {
+  --kraft: #d9c3a3;
+  --kraft-deep: #c9ad84;
+  --ink: #2b2622;
+  --ink-soft: #5c544b;
+  --paper: #f5ecdc;
+  --paper-2: #efe3cf;
+  --accent: #1f1b18;
+  --pop: #e0613f;
+  --teal: #2e8b8b;
+  --like: #e8557a;
+  --radius: 16px;
+  --maxw: 1040px;
+  --shadow: 0 10px 30px rgba(40,30,20,.16);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, "PingFang TC", "Hiragino Sans", "Noto Sans TC", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--pop); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; display: block; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+.center { text-align: center; }
+
+/* Header / nav */
+header.site {
+  background: rgba(217,195,163,.92);
+  backdrop-filter: saturate(140%) blur(8px);
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 2px solid rgba(0,0,0,.08);
+  position: sticky; top: 0; z-index: 20;
+}
+header.site .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--ink); }
+.brand:hover { text-decoration: none; }
+.brand svg { display: block; }
+nav.top { display: flex; align-items: center; gap: 22px; }
+nav.top a { color: var(--ink); font-weight: 600; font-size: 15px; }
+nav.top a.btn-sm { color: #fff; }
+@media (max-width: 620px){ nav.top a:not(.btn-sm){ display:none; } }
+
+/* Buttons */
+.btn {
+  display: inline-block; background: var(--accent); color: #fff !important;
+  padding: 14px 28px; border-radius: 999px; font-weight: 700; font-size: 16px;
+  border: 0; cursor: pointer; transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 6px 16px rgba(31,27,24,.22);
+}
+.btn:hover { text-decoration: none; transform: translateY(-2px); box-shadow: 0 10px 22px rgba(31,27,24,.28); }
+.btn.alt { background: transparent; color: var(--ink) !important; border: 2px solid var(--ink); box-shadow: none; }
+.btn.alt:hover { background: rgba(31,27,24,.06); }
+.btn-sm { padding: 9px 18px; font-size: 14px; }
+
+/* Hero */
+.hero { background: linear-gradient(180deg, var(--kraft) 0%, var(--kraft) 62%, var(--paper) 100%); padding: 56px 0 64px; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 32px; align-items: center; }
+.eyebrow { display: inline-block; background: rgba(31,27,24,.08); color: var(--ink-soft);
+  font-weight: 700; font-size: 13px; letter-spacing: .3px; padding: 6px 14px; border-radius: 999px; }
+.hero h1 { font-size: clamp(38px, 6.4vw, 62px); line-height: 1.08; margin: 16px 0 12px; letter-spacing: -1px; }
+.hero h1 .hl { color: var(--pop); }
+.hero .tag { font-size: clamp(17px, 2.4vw, 21px); color: var(--ink-soft); margin: 0 0 26px; max-width: 480px; }
+.hero .cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 16px; }
+.hero .en { font-size: 14px; color: var(--ink-soft); opacity: .85; }
+
+/* Hero pipeline art: three overlapping die-cut cards + floating sticker */
+.hero-art { position: relative; min-height: 420px; }
+.pl { position: absolute; margin: 0; width: 60%; background: #fff;
+  border-radius: 18px; box-shadow: var(--shadow); padding: 10px 10px 8px; }
+.pl img { width: 100%; aspect-ratio: 1/1.04; object-fit: contain; border-radius: 10px; background: var(--paper-2); }
+.pl figcaption { text-align: center; font-size: 13px; font-weight: 700; color: var(--ink-soft); padding: 8px 0 2px; }
+.pl-1 { top: 0; left: 2%; transform: rotate(-6deg); z-index: 1; }
+.pl-2 { top: 12%; left: 30%; transform: rotate(3deg); z-index: 2; }
+.pl-3 { top: 34%; left: 8%; transform: rotate(-2deg); z-index: 3; }
+.pl.sticker img { background: transparent; }
+.pl.sticker { background: #fff; }
+.float-stik { position: absolute; width: 30%; right: -2%; top: 2%; z-index: 4;
+  filter: drop-shadow(0 8px 14px rgba(40,30,20,.28)); animation: float 5.5s ease-in-out infinite; }
+@keyframes float { 0%,100%{ transform: translateY(0) rotate(8deg);} 50%{ transform: translateY(-14px) rotate(8deg);} }
+
+@media (max-width: 760px){
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-art { min-height: 360px; margin-top: 8px; max-width: 420px; }
+}
+
+/* Sections */
+section.block { padding: 64px 0; }
+section.block.tint { background: var(--paper-2); }
+section.block h2 { font-size: clamp(27px, 4vw, 36px); margin: 0 0 8px; text-align: center; letter-spacing: -.5px; }
+section.block .sub { text-align: center; color: var(--ink-soft); margin: 0 auto 40px; max-width: 560px; }
+
+/* How it works — pipeline */
+.steps { display: flex; align-items: stretch; justify-content: center; gap: 14px; flex-wrap: wrap; }
+.step { flex: 1 1 240px; max-width: 300px; background: #fff; border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 18px; position: relative; }
+.step .stage { background: var(--paper-2); border-radius: 12px; aspect-ratio: 1/1; display: grid; place-items: center; overflow: hidden; }
+.step .stage img { width: 86%; height: 86%; object-fit: contain; }
+.step .stage.line { background: repeating-linear-gradient(45deg, #fbf6ec, #fbf6ec 10px, #f3ead9 10px, #f3ead9 20px); }
+.step .n { position: absolute; top: -14px; left: 18px; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--pop); color: #fff; font-weight: 800; display: grid; place-items: center; box-shadow: 0 4px 10px rgba(224,97,63,.4); }
+.step h3 { margin: 16px 0 6px; font-size: 20px; }
+.step p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+.steps .arrow { align-self: center; font-size: 34px; color: var(--kraft-deep); font-weight: 700; }
+@media (max-width: 760px){ .steps .arrow { transform: rotate(90deg); } }
+
+/* Feature grid */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.card {
+  background: #fff; border: 1px solid rgba(0,0,0,.06); border-radius: var(--radius);
+  padding: 24px; box-shadow: 0 3px 14px rgba(40,30,20,.06); transition: transform .14s ease, box-shadow .14s ease;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.card .ic { font-size: 30px; }
+.card h3 { margin: 12px 0 6px; font-size: 19px; }
+.card p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+
+/* Showcase — scattered die-cut stickers */
+.showcase { background: var(--kraft); }
+.stik-row { display: flex; gap: clamp(8px, 4vw, 48px); justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 36px; }
+.bigstik { width: clamp(150px, 26vw, 230px); filter: drop-shadow(0 12px 18px rgba(40,30,20,.26)); transition: transform .2s ease; }
+.bigstik:hover { transform: translateY(-6px) scale(1.03); }
+.bigstik.s1 { transform: rotate(-8deg); }
+.bigstik.s2 { transform: rotate(2deg); }
+.bigstik.s3 { transform: rotate(9deg); }
+.bigstik.s1:hover { transform: rotate(-8deg) translateY(-6px) scale(1.03); }
+.bigstik.s3:hover { transform: rotate(9deg) translateY(-6px) scale(1.03); }
+
+/* Pricing */
+.plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; align-items: stretch; }
+.plan { background: #fff; border-radius: var(--radius); padding: 26px 22px; box-shadow: 0 3px 14px rgba(40,30,20,.06);
+  border: 1px solid rgba(0,0,0,.06); position: relative; display: flex; flex-direction: column; }
+.plan.best { border: 2px solid var(--pop); box-shadow: var(--shadow); }
+.plan .ribbon { position: absolute; top: -12px; right: 18px; background: var(--pop); color: #fff;
+  font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 999px; }
+.plan h3 { margin: 0 0 6px; font-size: 19px; }
+.plan .price { font-size: 30px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 14px; }
+.plan ul { list-style: none; padding: 0; margin: 0; }
+.plan li { color: var(--ink-soft); font-size: 15px; padding: 6px 0 6px 24px; position: relative; }
+.plan li::before { content: "✓"; position: absolute; left: 0; color: var(--teal); font-weight: 800; }
+.foot-note { text-align: center; color: var(--ink-soft); font-size: 14px; margin: 26px auto 0; max-width: 620px; }
+
+/* Legal pages */
+.legal { padding: 48px 0 72px; max-width: 760px; }   /* 窄一點利於長文閱讀 */
+.legal h1 { font-size: 30px; margin-bottom: 4px; }
+.legal .updated { color: var(--ink-soft); font-size: 14px; margin-bottom: 28px; }
+.legal h2 { font-size: 21px; margin: 30px 0 8px; }
+.legal h3 { font-size: 17px; margin: 20px 0 6px; }
+.legal p, .legal li { color: var(--ink-soft); }
+.legal .divider { border: 0; border-top: 1px dashed rgba(0,0,0,.2); margin: 40px 0; }
+.legal table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+.legal th, .legal td { border: 1px solid rgba(0,0,0,.12); padding: 8px 10px; text-align: left; }
+.lang-note { background: var(--kraft); border-radius: 12px; padding: 10px 16px; font-size: 14px; display: inline-block; }
+
+/* Footer */
+footer.site { background: var(--accent); color: #cfc4b3; padding: 32px 0; font-size: 14px; }
+footer.site .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; align-items: center; }
+footer.site a { color: #f5ecdc; }
+footer.site .links a { margin-right: 18px; }
+
+@media (prefers-reduced-motion: reduce){ .float-stik { animation: none; } * { scroll-behavior: auto; } }
