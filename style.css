@@ -164,4 +164,11 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-cont
 footer.site a { color: #f5ecdc; }
 footer.site .links a { margin-right: 18px; }
 
+/* 語言切換 */
+.lang-switch { display: inline-flex; gap: 2px; border: 1px solid rgba(31,27,24,.18); border-radius: 999px; padding: 2px; }
+.lang-switch button { font: inherit; font-size: 12px; font-weight: 600; line-height: 1; color: var(--ink-soft); background: transparent; border: 0; padding: 6px 10px; border-radius: 999px; cursor: pointer; }
+.lang-switch button:hover { color: var(--ink); }
+.lang-switch button[aria-current="true"] { background: var(--accent); color: #fff; }
+@media (max-width: 620px){ .lang-switch button { padding: 6px 8px; font-size: 11px; } }
+
 @media (prefers-reduced-motion: reduce){ .float-stik { animation: none; } * { scroll-behavior: auto; } }
