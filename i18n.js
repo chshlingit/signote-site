@@ -17,10 +17,11 @@
       step1_h: "落書きを撮る", step1_p: "紙に落書きして撮るだけ。写真に転写する準備完了。紙とペンがあれば始められます。",
       step2_h: "自動で切り抜き", step2_p: "SigNote が Apple ネイティブの画像処理で自動的に背景を切り抜き、きれいな前景を抽出。10年支持された中核機能。",
       step3_h: "転写して色塗り", step3_p: "選んだ写真の前景に転写。色塗りエディタで色を塗り、拡大・回転・フィルターも自由。高解像度で書き出し・共有。",
-      feat_h2: "気に入る5つのこと", feat_sub: "紙とペンから、あなたの手描きが入った一枚へ。",
+      feat_h2: "気に入る6つのこと", feat_sub: "紙とペンから、あなたの手描きが入った一枚へ。",
       f1_h: "手描き切り抜き", f1_p: "写真や紙の落書きからきれいな前景を自動抽出。Apple ネイティブ処理に刷新し、より速く省電力に。",
       f2_h: "前景に色塗り", f2_p: "塗りつぶし＋5種類の質感ブラシで、転写した前景に色塗り。",
       f3_h: "多重前景とフィルター", f3_p: "複数の前景を自由に拡大・回転・配置・フィルター（枚数無制限に）。高解像度で合成・書き出し。",
+      f6_h: "縦でも横でも快適編集", f6_p: "本体を横にすると編集画面とカメラも回転し、写真が自動でセンタリング＆フル表示。標準の「写真」アプリのように自然。2本指で拡大・移動して細部を確認。撮影も横向きに対応し、見たままを転写。書き出しは常に正立・全体です。",
       f4_h: "プライバシー重視", f4_p: "編集はすべて端末内で完結し、写真は外部に送信されません。アカウント不要・広告なし・トラッキングなし。",
       f5_h: "既存ユーザーは追加課金なし", f5_p: "以前の有料版をご購入の方は、アップデート後 Pro が自動で解除され、追加課金はありません。",
       show_h2: "あなたの手描き、あなたの写真", show_sub: "同じ落書きでも、色を変えれば新しい前景。",
@@ -66,7 +67,9 @@
       sup_q3: "「購入を復元」はどこにありますか？",
       sup_a3: "アプリの課金画面（Pro／色塗りパックのアップグレード時に表示）の下部にあります。機種変更や再インストール後、同じ Apple ID でタップすれば購入済みの項目が戻ります。",
       sup_q4: "どの iOS バージョンが必要ですか？",
-      sup_a4: "iOS 16 以上が必要です。古い端末では、以前に購入済みのバージョンを引き続きご利用いただけます。"
+      sup_a4: "iOS 16 以上が必要です。古い端末では、以前に購入済みのバージョンを引き続きご利用いただけます。",
+      sup_q5: "横向き（横持ち）で編集できますか？",
+      sup_a5: "はい。本体を横にすると、編集画面とカメラも回転し、写真が自動でセンタリング＆フル表示されます。標準の「写真」アプリのような操作感です。細部を見たいときは2本指で拡大・移動できます。縦・横どちらで撮っても、書き出しは常に正立・全体です。"
     },
     en: {
       nav_how: "How it works", nav_features: "Features", nav_pricing: "Pricing", nav_support: "Support",
@@ -83,10 +86,11 @@
       step1_h: "Snap a doodle", step1_p: "Doodle on paper and snap it, ready to transfer onto your photo. A sheet of paper and a pen is all you need.",
       step2_h: "Auto cutout", step2_p: "SigNote cuts out the background on Apple's native imaging pipeline and extracts a clean foreground. The 10-year core feature.",
       step3_h: "Transfer & color", step3_p: "Transfer it onto your chosen photo as a foreground, paint it in the coloring editor, scale, rotate, filter, and export or share in high resolution.",
-      feat_h2: "Five things you'll love", feat_sub: "From a sheet of paper and a pen to a photo with your own hand-drawn art.",
+      feat_h2: "Six things you'll love", feat_sub: "From a sheet of paper and a pen to a photo with your own hand-drawn art.",
       f1_h: "Hand-drawn cutout", f1_p: "Auto-extract a clean foreground from photos or paper doodles, rewritten on Apple's native pipeline — faster and more efficient.",
       f2_h: "Color the foreground", f2_p: "Paint-bucket fill plus five texture brushes to color your transferred foreground by hand.",
       f3_h: "Layers & filters", f3_p: "Scale, rotate, arrange, and filter multiple foregrounds (now unlimited), and export high-resolution composites to Photos or any app.",
+      f6_h: "Portrait or landscape", f6_p: "Turn your phone sideways and the editor and camera rotate with it — your photo recenters and fills the screen, just like the built-in Photos app. Pinch to zoom and pan for detail, shoot in landscape too, and exports stay upright and complete.",
       f4_h: "Privacy first", f4_p: "All editing happens on your device; your photos are never uploaded. No account, no ads, no tracking.",
       f5_h: "No second charge", f5_p: "If you bought the paid app, Pro unlocks automatically after updating — you're never charged again.",
       show_h2: "Your art, your photo", show_sub: "Same doodle, new color, new foreground.",
@@ -132,7 +136,9 @@
       sup_q3: "Where is \"Restore Purchases\"?",
       sup_a3: "It's at the bottom of the upgrade screen (shown when upgrading to Pro / the Coloring Pack). After a new device or reinstall, tap it with the same Apple ID to restore your purchases.",
       sup_q4: "Which iOS version do I need?",
-      sup_a4: "iOS 16 or later. Older devices can keep using the version they already purchased."
+      sup_a4: "iOS 16 or later. Older devices can keep using the version they already purchased.",
+      sup_q5: "Can I edit in landscape?",
+      sup_a5: "Yes. Turn your phone sideways and the editor and camera rotate with it — your photo recenters and fills the screen, just like the built-in Photos app. Pinch to zoom and pan when you want to inspect detail. Whether you shoot in portrait or landscape, your export is always upright and complete."
     }
   };
   var LANGS = { zh: "zh-Hant", ja: "ja", en: "en" };
