@@ -1,0 +1,38 @@
+# 用 GitHub Actions 部署純靜態網站到 GitHub Pages。
+# 取代舊的 legacy「Deploy from a branch」部署（該路徑後端持續卡在 deploy 失敗）。
+# 生效前提：Settings → Pages → Source 需切成「GitHub Actions」。
+name: Deploy static site to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # 允許在 Actions 分頁手動「Run workflow」
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同時只跑一個部署；不取消進行中的（避免半途中斷）。
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact (整個 repo 根目錄＝靜態站)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
