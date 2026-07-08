@@ -171,6 +171,8 @@
   var els = [].slice.call(document.querySelectorAll("[data-i18n]"));
   var zhCache = {};
   els.forEach(function (el) { zhCache[el.getAttribute("data-i18n")] = el.innerHTML; });
+  // 隨語系切換的圖片：data-i18n-src="assets/usage-video" → 依語系載入 -zh/-ja/-en.jpg
+  var imgEls = [].slice.call(document.querySelectorAll("[data-i18n-src]"));
 
   function apply(lang) {
     if (!LANGS[lang]) lang = "zh";
@@ -179,6 +181,9 @@
       var k = el.getAttribute("data-i18n");
       var v = (lang === "zh") ? zhCache[k] : (table && table[k] != null ? table[k] : zhCache[k]);
       if (v != null) el.innerHTML = v;
+    });
+    imgEls.forEach(function (el) {
+      el.setAttribute("src", el.getAttribute("data-i18n-src") + "-" + lang + ".jpg");
     });
     document.documentElement.setAttribute("lang", LANGS[lang]);
     var btns = document.querySelectorAll(".lang-switch button");
