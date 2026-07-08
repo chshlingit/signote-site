@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<!-- SigNote website — content v2.0.0 (手繪轉印定位；v2.1 廣場內容見 git tag site-v2.1.0) -->
+<!-- SigNote website — content v2.3.0 (手繪轉印＋影片簽名；v2.1 廣場內容見 git tag site-v2.1.0) -->
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SigNote — 把手繪轉印到照片</title>
-<meta name="description" content="SigNote：把紙上手繪塗鴉自動去背，轉印到照片上當前景，自由縮放、旋轉、上色。十年磨一劍的手繪照片 App，台灣製造。">
+<meta name="description" content="SigNote：把紙上手繪塗鴉自動去背，轉印到照片上當前景，自由縮放、旋轉、上色；現在影片也能簽名，手繪抖動讓線條活起來。十年磨一劍的手繪 App，台灣製造。">
 <meta property="og:title" content="SigNote — 把手繪轉印到照片">
-<meta property="og:description" content="手繪轉印 × 自動去背 × 多層前景。">
+<meta property="og:description" content="手繪轉印 × 自動去背 × 多層前景 × 影片簽名。">
 <meta property="og:type" content="website">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=230">
 </head>
 <body>
 
@@ -25,6 +25,7 @@
     <nav class="top">
       <a href="#how" data-i18n="nav_how">怎麼運作</a>
       <a href="#features" data-i18n="nav_features">功能</a>
+      <a href="#video" data-i18n="nav_video">影片簽名</a>
       <a href="#pricing" data-i18n="nav_pricing">價格</a>
       <a href="support.html" data-i18n="nav_support">客服</a>
       <a class="btn btn-sm" href="https://apps.apple.com/app/id427535251" data-i18n="nav_download">下載</a>
@@ -102,16 +103,38 @@
 <!-- FEATURES -->
 <section class="block tint" id="features">
   <div class="wrap">
-    <h2 data-i18n="feat_h2">你會愛上的六件事</h2>
+    <h2 data-i18n="feat_h2">你會愛上的七件事</h2>
     <p class="sub" data-i18n="feat_sub">從一張紙、一隻筆，到一張有你手繪的照片。</p>
     <div class="features">
+      <div class="card new"><span class="badge-new">NEW · v2.3</span><div class="ic">🎬</div><h3 data-i18n="fv_h">影片簽名</h3><p data-i18n="fv_p">把手繪疊上影片當前景，手繪抖動讓線條活起來；拍完直接編輯，匯出分享到任何 App。</p></div>
       <div class="card"><div class="ic">✂️</div><h3 data-i18n="f1_h">手繪去背</h3><p data-i18n="f1_p">照片或紙上塗鴉自動萃取乾淨前景，以 Apple 原生影像管線重寫，更快更省電。</p></div>
       <div class="card"><div class="ic">🎨</div><h3 data-i18n="f2_h">前景上色</h3><p data-i18n="f2_p">油漆桶填色＋四種質感筆刷，為轉印的前景親手上色。</p></div>
       <div class="card"><div class="ic">🖼️</div><h3 data-i18n="f3_h">多層前景與濾鏡</h3><p data-i18n="f3_p">多張前景自由縮放、旋轉、排列、套濾鏡（不再有張數上限），高解析合成輸出到相簿或任何 App。</p></div>
       <div class="card"><div class="ic">🔄</div><h3 data-i18n="f6_h">直向橫向都好編</h3><p data-i18n="f6_p">手機打橫，編輯畫面與相機跟著轉、照片自動置中滿版，像 iOS 內建「相片」一樣自然；雙指縮放、平移看細節，連拍照都能橫拿、所見即所得，成品永遠正立完整。</p></div>
       <div class="card"><div class="ic">🔒</div><h3 data-i18n="f4_h">隱私優先</h3><p data-i18n="f4_p">編輯全在裝置本機完成，相簿照片不外傳。無帳號、無廣告、無追蹤。</p></div>
-      <div class="card"><div class="ic">💛</div><h3 data-i18n="f5_h">老用戶不二次收費</h3><p data-i18n="f5_p">曾購買付費版的你，更新後自動解鎖 Pro，永不再收費。</p></div>
+      <div class="card"><div class="ic">💛</div><h3 data-i18n="f5_h">老用戶不二次收費</h3><p data-i18n="f5_p">曾購買付費版的你，更新後自動解鎖 SigNote Pro，永不再收費。</p></div>
     </div>
+  </div>
+</section>
+
+<!-- VIDEO SIGNATURE (v2.3) -->
+<section class="block video" id="video">
+  <div class="wrap video-grid">
+    <div class="video-copy">
+      <span class="badge-new">NEW · v2.3</span>
+      <h2 data-i18n="v23_h2">影片也能簽名了</h2>
+      <p class="sub" data-i18n="v23_sub">同一套手繪前景，這次疊上會動的畫面。</p>
+      <ul class="video-points">
+        <li data-i18n="v23_li1"><strong>影片當背景</strong>——從相簿選影片，或用相機直接錄一段，拍完馬上編輯。</li>
+        <li data-i18n="v23_li2"><strong>手繪前景疊影片</strong>——簽名、貼紙照樣去背、上色、縮放、旋轉，像貼紙一樣疊上畫面。</li>
+        <li data-i18n="v23_li3"><strong>手繪抖動</strong>——boiling-line 動態筆觸讓線條微微顫動，像手繪動畫一樣活起來。</li>
+        <li data-i18n="v23_li4"><strong>匯出分享</strong>——合成後的影片存回相簿，或直接分享到任何 App。</li>
+      </ul>
+    </div>
+    <figure class="video-shot">
+      <img src="assets/usage-video.jpg" alt="影片簽名編輯畫面：手繪前景疊在影片上" width="360" height="782" loading="lazy">
+      <figcaption data-i18n="v23_cap">影片功能免費完整可用，免費匯出帶 SigNote 標記；購買「SigNote 影片 Pro」即可匯出乾淨影片。</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -121,9 +144,9 @@
     <h2 data-i18n="show_h2">你的手繪，你的照片</h2>
     <p class="sub" data-i18n="show_sub">同一張塗鴉，換個顏色就是全新的前景。</p>
     <div class="stik-row">
-      <img src="assets/demo-fg-coral.png" alt="珊瑚色忍者前景" class="bigstik s1">
-      <img src="assets/demo-fg.png" alt="墨色忍者前景" class="bigstik s2">
-      <img src="assets/demo-fg-teal.png" alt="湖綠色忍者前景" class="bigstik s3">
+      <img src="assets/demo-fg-coral.png" alt="珊瑚色忍者前景" class="bigstik s1" width="600" height="600">
+      <img src="assets/demo-fg.png" alt="墨色忍者前景" class="bigstik s2" width="600" height="600">
+      <img src="assets/demo-fg-teal.png" alt="湖綠色忍者前景" class="bigstik s3" width="600" height="600">
     </div>
     <p class="center"><a class="btn" href="https://apps.apple.com/app/id427535251" data-i18n="hero_cta1">App Store 下載</a></p>
   </div>
@@ -136,17 +159,17 @@
     <p class="sub" data-i18n="price_sub">免費下載，依你需要解鎖。沒有月費、沒有廣告。</p>
     <div class="plans">
       <div class="plan">
-        <h3>SigNote Pro</h3>
+        <h3 data-i18n="plan1_h">SigNote Pro</h3>
         <div class="price">US$2.99</div>
         <ul data-i18n="plan1_list">
-          <li>去除浮水印</li>
+          <li>相片匯出不帶 SigNote 浮水印</li>
           <li>高解析・批次輸出</li>
           <li>全部濾鏡</li>
           <li>解鎖全部進階圖案</li>
         </ul>
       </div>
       <div class="plan">
-        <h3 data-i18n="plan2_h">塗色功能包</h3>
+        <h3 data-i18n="plan2_h">塗色貼紙功能包</h3>
         <div class="price">US$3.99</div>
         <ul data-i18n="plan2_list">
           <li>前景上色編輯器</li>
@@ -156,18 +179,18 @@
         </ul>
       </div>
       <div class="plan best">
-        <span class="ribbon" data-i18n="plan_ribbon">最划算</span>
-        <h3 data-i18n="plan3_h">全功能包</h3>
-        <div class="price">US$4.99</div>
-        <ul data-i18n="plan3_list">
-          <li>一次解鎖 Pro</li>
-          <li>＋ 塗色功能包</li>
-          <li>比分開買更省</li>
-          <li>永久解鎖</li>
+        <span class="ribbon" data-i18n="plan_ribbon">新登場</span>
+        <h3 data-i18n="plan4_h">SigNote 影片 Pro</h3>
+        <div class="price">US$3.99</div>
+        <ul data-i18n="plan4_list">
+          <li>影片匯出不帶 SigNote 浮水印</li>
+          <li>影片功能免費完整可用</li>
+          <li>手繪前景疊影片＋手繪抖動</li>
+          <li>一次買斷永久解鎖</li>
         </ul>
       </div>
     </div>
-    <p class="foot-note" data-i18n="price_note">實際價格依各地區 App Store 為準。曾購買舊付費版的用戶更新後自動解鎖 Pro，不再收費。</p>
+    <p class="foot-note" data-i18n="price_note">實際價格依各地區 App Store 為準。曾購買舊付費版的用戶更新後自動解鎖 SigNote Pro，不再收費。</p>
   </div>
 </section>
 

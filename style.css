@@ -81,7 +81,7 @@ nav.top a.btn-sm { color: #fff; }
 .pl-3 { top: 34%; left: 8%; transform: rotate(-2deg); z-index: 3; }
 .pl.sticker img { background: transparent; }
 .pl.sticker { background: #fff; }
-.float-stik { position: absolute; width: 30%; right: -2%; top: 2%; z-index: 4;
+.float-stik { position: absolute; width: 30%; height: auto; right: -2%; top: 2%; z-index: 4;
   filter: drop-shadow(0 8px 14px rgba(40,30,20,.28)); animation: float 5.5s ease-in-out infinite; }
 @keyframes float { 0%,100%{ transform: translateY(0) rotate(8deg);} 50%{ transform: translateY(-14px) rotate(8deg);} }
 
@@ -121,10 +121,30 @@ section.block .sub { text-align: center; color: var(--ink-soft); margin: 0 auto 
 .card h3 { margin: 12px 0 6px; font-size: 19px; }
 .card p { margin: 0; color: var(--ink-soft); font-size: 15px; }
 
+/* Video signature (v2.3) */
+.badge-new { display: inline-block; background: var(--pop); color: #fff; font-size: 12px; font-weight: 800;
+  letter-spacing: .5px; padding: 4px 12px; border-radius: 999px; }
+.card.new { position: relative; border-color: rgba(224,97,63,.35); }
+.card.new .badge-new { position: absolute; top: -12px; right: 16px; box-shadow: 0 4px 10px rgba(224,97,63,.4); }
+.video-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 44px; align-items: center; }
+section.block .video-copy h2 { text-align: left; margin: 14px 0 8px; }
+section.block .video-copy .sub { text-align: left; margin: 0 0 20px; max-width: none; }
+.video-points { list-style: none; padding: 0; margin: 0; }
+.video-points li { color: var(--ink-soft); font-size: 15px; padding: 7px 0 7px 26px; position: relative; }
+.video-points li::before { content: "✓"; position: absolute; left: 0; color: var(--teal); font-weight: 800; }
+.video-points strong { color: var(--ink); }
+.video-shot { margin: 0; justify-self: center; text-align: center; }
+.video-shot img { width: 100%; max-width: 360px; height: auto; margin: 0 auto;
+  border-radius: 28px; box-shadow: var(--shadow); background: var(--paper-2); }
+.video-shot figcaption { font-size: 13px; color: var(--ink-soft); margin: 12px auto 0; max-width: 360px; }
+@media (max-width: 760px){
+  .video-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+
 /* Showcase — scattered die-cut stickers */
 .showcase { background: var(--kraft); }
 .stik-row { display: flex; gap: clamp(8px, 4vw, 48px); justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 36px; }
-.bigstik { width: clamp(150px, 26vw, 230px); filter: drop-shadow(0 12px 18px rgba(40,30,20,.26)); transition: transform .2s ease; }
+.bigstik { width: clamp(150px, 26vw, 230px); height: auto; filter: drop-shadow(0 12px 18px rgba(40,30,20,.26)); transition: transform .2s ease; }
 .bigstik:hover { transform: translateY(-6px) scale(1.03); }
 .bigstik.s1 { transform: rotate(-8deg); }
 .bigstik.s2 { transform: rotate(2deg); }

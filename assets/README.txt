@@ -7,6 +7,8 @@
 實機成品圖（已合成的「轉印到照片」結果，用於 App Store 截圖設計 docs/appstore/screens.html 第 4 張）：
 - usage-landscape.jpg 橫式成品：稻田＋手繪貓前景（4:3，由 screenshots/demo-screenshot/IMG_4916.JPG -Z 1600 縮圖）
 - usage-portrait.jpg  直式成品：公園草地＋忍者前景（3:4，由 screenshots/demo-screenshot/screenshot_1.JPG -Z 1600 縮圖）
+- usage-video.jpg     【待補】影片簽名編輯畫面截圖（index.html #video 區；<img> 顯示 360×781，
+                      請輸出 2x＝720×1562 像素以防 Retina 模糊；未放圖前版面已用 width/height 預留、不跳動）
 
 demo-fg*.png 由 ../../scripts（Pillow）從 demo-source.jpg 重新萃取：
 門檻去背 + 清除原稿標註，眼睛沿用原稿（兩顆墨點，位置正確）。換素材時可重跑生成腳本。
