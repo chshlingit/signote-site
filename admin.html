@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!-- SigNote 廣場審核後台（純靜態；權力來自登入身分＋RLS，頁內只有公開 publishable key）
+     管理員設定見 supabase/README.md §後台；本頁不進站內導覽、noindex。 -->
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>SigNote 廣場 — 審核後台</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body { font: 15px/1.6 -apple-system, "PingFang TC", sans-serif; margin: 0; padding: 16px;
+         background: Canvas; color: CanvasText; max-width: 900px; margin-inline: auto; }
+  h1 { font-size: 20px; } h2 { font-size: 16px; margin: 24px 0 8px; }
+  input, button, select { font: inherit; padding: 8px 12px; border-radius: 8px;
+         border: 1px solid color-mix(in srgb, CanvasText 25%, transparent); }
+  button { cursor: pointer; background: #3478f6; color: #fff; border: none; }
+  button.secondary { background: color-mix(in srgb, CanvasText 12%, transparent); color: CanvasText; }
+  button.danger { background: #e5484d; }
+  button:disabled { opacity: .5; cursor: default; }
+  .card { display: flex; gap: 12px; padding: 12px; margin: 10px 0; border-radius: 12px;
+          border: 1px solid color-mix(in srgb, CanvasText 15%, transparent); align-items: flex-start; }
+  .card img { width: 96px; height: 96px; object-fit: contain; border-radius: 8px; flex: none;
+              background:
+                repeating-conic-gradient(#e8e8e8 0% 25%, #ffffff 0% 50%) 0 0 / 18px 18px; }
+  .card .meta { flex: 1; min-width: 0; } .meta div { overflow-wrap: anywhere; }
+  .muted { opacity: .65; font-size: 13px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px;
+         background: color-mix(in srgb, CanvasText 10%, transparent); margin-right: 4px; }
+  #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+           background: CanvasText; color: Canvas; padding: 8px 16px; border-radius: 999px;
+           opacity: 0; transition: opacity .25s; pointer-events: none; max-width: 90vw; }
+  #toast.show { opacity: 1; }
+  nav.tabs { display: flex; gap: 8px; margin: 16px 0; }
+  .hidden { display: none !important; }
+  form#login { display: flex; flex-direction: column; gap: 10px; max-width: 340px; margin-top: 24px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>SigNote 廣場 — 審核後台</h1>
+  <button id="signout" class="secondary hidden">登出</button>
+</div>
+
+<!-- 登入 -->
+<form id="login">
+  <input id="email" type="email" placeholder="管理員 email" autocomplete="username" required>
+  <input id="password" type="password" placeholder="密碼" autocomplete="current-password" required>
+  <button type="submit">登入</button>
+  <p class="muted">僅供站方審核使用。管理權限由伺服器端（RLS）驗證，非管理員登入亦無法操作。</p>
+</form>
+
+<!-- 主畫面 -->
+<div id="app" class="hidden">
+  <nav class="tabs">
+    <button id="tab-pending">待審佇列</button>
+    <button id="tab-reports" class="secondary">檢舉佇列</button>
+    <button id="refresh" class="secondary">重新整理</button>
+  </nav>
+  <div id="list"></div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+// ── 公開常數（與 App 同一把 publishable key；管理權力不來自這裡）─────────
+const SB = "https://dizmvkjutsgwhposwdrl.supabase.co";
+const KEY = "sb_publishable_pI2QfBX0XHuJDn1QQOLxBw_GGtvFfrK";
+const R2 = "https://pub-f27042f589424e96ad2fcc38ec18442d.r2.dev";
+
+const $ = (id) => document.getElementById(id);
+let tab = "pending";
+
+const toast = (m) => { const t = $("toast"); t.textContent = m; t.classList.add("show");
+                       setTimeout(() => t.classList.remove("show"), 2600); };
+
+// ── Session（sessionStorage；401 時重登）────────────────────────────────
+const session = {
+  get token() { return sessionStorage.getItem("sb_at"); },
+  save(j) { sessionStorage.setItem("sb_at", j.access_token); },
+  clear() { sessionStorage.removeItem("sb_at"); },
+};
+
+async function api(path, opts = {}) {
+  const r = await fetch(SB + path, { ...opts, headers: {
+    apikey: KEY, Authorization: "Bearer " + (session.token || KEY),
+    "Content-Type": "application/json", ...(opts.headers || {}) } });
+  if (r.status === 401) { signOut(); toast("登入逾期，請重新登入"); throw new Error("401"); }
+  return r;
+}
+
+// ── 登入／登出 ──────────────────────────────────────────────────────────
+$("login").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const r = await fetch(SB + "/auth/v1/token?grant_type=password", {
+    method: "POST", headers: { apikey: KEY, "Content-Type": "application/json" },
+    body: JSON.stringify({ email: $("email").value, password: $("password").value }) });
+  const j = await r.json();
+  if (!r.ok) { toast(j.error_description || j.msg || "登入失敗"); return; }
+  session.save(j);
+  // RLS 自我檢查：不是管理員就沒得玩
+  const m = await (await api("/rest/v1/moderators?select=user_id")).json();
+  if (!Array.isArray(m) || m.length === 0) { signOut(); toast("此帳號不是管理員"); return; }
+  enterApp();
+});
+
+function signOut() { session.clear(); $("app").classList.add("hidden");
+  $("login").classList.remove("hidden"); $("signout").classList.add("hidden"); }
+$("signout").addEventListener("click", signOut);
+
+function enterApp() {
+  $("login").classList.add("hidden"); $("app").classList.remove("hidden");
+  $("signout").classList.remove("hidden"); load();
+}
+
+// ── 分頁 ────────────────────────────────────────────────────────────────
+$("tab-pending").addEventListener("click", () => { tab = "pending"; styleTabs(); load(); });
+$("tab-reports").addEventListener("click", () => { tab = "reports"; styleTabs(); load(); });
+$("refresh").addEventListener("click", load);
+function styleTabs() {
+  $("tab-pending").className = tab === "pending" ? "" : "secondary";
+  $("tab-reports").className = tab === "reports" ? "" : "secondary";
+}
+
+async function load() { $("list").innerHTML = "<p class='muted'>載入中…</p>";
+  try { tab === "pending" ? await loadPending() : await loadReports(); }
+  catch (e) { if (String(e).indexOf("401") < 0) $("list").innerHTML = "<p>載入失敗，請重試。</p>"; }
+}
+
+// ── 待審佇列 ────────────────────────────────────────────────────────────
+async function loadPending() {
+  const rows = await (await api(
+    "/rest/v1/stickers?select=*&approved_at=is.null&visibility=eq.public&order=created_at.desc")).json();
+  render(rows, (s) => [
+    btn("✅ 放行", () => patchSticker(s.id, { approved_at: new Date().toISOString() }, "已放行")),
+    btn("⛔ 下架（改不公開）", () => patchSticker(s.id, { visibility: "unlisted" }, "已下架"), "danger"),
+    holdBtn(s),
+  ], "沒有待審項目 🎉");
+}
+
+// ── 檢舉佇列 ────────────────────────────────────────────────────────────
+async function loadReports() {
+  const reports = await (await api("/rest/v1/reports?select=*&order=created_at.desc")).json();
+  if (!reports.length) { $("list").innerHTML = "<p class='muted'>沒有未處理的檢舉 🎉</p>"; return; }
+  const ids = [...new Set(reports.map((r) => r.sticker_id))];
+  const stickers = await (await api(
+    "/rest/v1/stickers?select=*&id=in.(" + ids.join(",") + ")")).json();
+  const byID = Object.fromEntries(stickers.map((s) => [s.id, s]));
+  $("list").innerHTML = "";
+  for (const r of reports) {
+    const s = byID[r.sticker_id];
+    const el = card(s || { id: r.sticker_id, title: "（貼紙已不存在）", author_name: "-", tags: [] },
+      s ? [
+        btn("⛔ 下架", () => patchSticker(s.id, { visibility: "unlisted" }, "已下架"), "danger"),
+        holdBtn(s),
+        btn("🗑 刪除此檢舉（已處置）", () => delReport(r.id), "secondary"),
+      ] : [btn("🗑 刪除此檢舉", () => delReport(r.id), "secondary")]);
+    el.querySelector(".meta").insertAdjacentHTML("afterbegin",
+      `<div><strong>檢舉原因：${esc(r.reason)}</strong> <span class="muted">${fmt(r.created_at)}</span></div>`);
+    $("list").appendChild(el);
+  }
+}
+
+// ── 共用渲染／操作 ──────────────────────────────────────────────────────
+function render(rows, actionsFor, emptyMsg) {
+  $("list").innerHTML = "";
+  if (!rows.length) { $("list").innerHTML = `<p class='muted'>${emptyMsg}</p>`; return; }
+  rows.forEach((s) => $("list").appendChild(card(s, actionsFor(s))));
+}
+
+function card(s, actions) {
+  const div = document.createElement("div");
+  div.className = "card";
+  div.innerHTML = `
+    <a href="${R2}/stickers/${s.id}.png" target="_blank" rel="noopener">
+      <img src="${R2}/thumbs/${s.id}.png" alt="" loading="lazy"></a>
+    <div class="meta">
+      <div><strong>${esc(s.title || "(未命名)")}</strong>
+        ${s.legal_hold ? "<span class='tag'>⚖️ legal hold</span>" : ""}
+        ${s.visibility === "unlisted" ? "<span class='tag'>🔒 不公開</span>" : ""}</div>
+      <div class="muted">${esc(s.author_name || "?")}｜${esc(s.category || "-")}｜${fmt(s.created_at)}</div>
+      <div>${(s.tags || []).map((t) => `<span class="tag">🔖 ${esc(t)}</span>`).join("")}</div>
+      <div class="actions"></div>
+    </div>`;
+  const box = div.querySelector(".actions");
+  actions.forEach((a) => box.appendChild(a));
+  return div;
+}
+
+function btn(label, fn, cls) {
+  const b = document.createElement("button");
+  b.textContent = label; if (cls) b.className = cls;
+  b.onclick = async () => { b.disabled = true; try { await fn(); } finally { b.disabled = false; } };
+  return b;
+}
+function holdBtn(s) {
+  return btn(s.legal_hold ? "⚖️ 解除 legal hold" : "⚖️ 標記 legal hold",
+    () => patchSticker(s.id, { legal_hold: !s.legal_hold },
+      s.legal_hold ? "已解除保全" : "已標記證據保全（刪帳號不清此物件）"), "secondary");
+}
+
+async function patchSticker(id, body, okMsg) {
+  const r = await api("/rest/v1/stickers?id=eq." + id, {
+    method: "PATCH", body: JSON.stringify(body),
+    headers: { Prefer: "return=representation" } });
+  const rows = await r.json();
+  if (!r.ok || !Array.isArray(rows) || rows.length === 0) { toast("操作失敗（無權限或列不存在）"); return; }
+  toast(okMsg); load();
+}
+async function delReport(id) {
+  const r = await api("/rest/v1/reports?id=eq." + id, {
+    method: "DELETE", headers: { Prefer: "return=representation" } });
+  const rows = await r.json();
+  if (!r.ok || !rows.length) { toast("刪除失敗"); return; }
+  toast("檢舉已刪除"); load();
+}
+
+const esc = (x) => String(x ?? "").replace(/[&<>"']/g, (c) =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = (t) => t ? new Date(t).toLocaleString("zh-TW", { hour12: false }) : "-";
+
+// 已有 session 就直接驗證進入
+if (session.token) {
+  api("/rest/v1/moderators?select=user_id").then((r) => r.json())
+    .then((m) => { if (Array.isArray(m) && m.length) enterApp(); else signOut(); })
+    .catch(() => {});
+}
+</script>
+</body>
+</html>
