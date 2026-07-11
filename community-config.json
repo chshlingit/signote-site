@@ -1,4 +1,7 @@
 {
   "enabled": true,
-  "note": "SigNote 廣場遠端開關（合規補件⑤）。緊急關閉＝把 enabled 改 false 後部署官網；App 每次啟動抓一次、fail-open。"
+  "providers": [
+    "apple"
+  ],
+  "note": "SigNote 廣場遠端設定。enabled=false 全網關閉入口；providers=登入方式清單（開 Google：Supabase/GCP 配置完成後加 \"google\"，免發版）。App 每次啟動抓一次、fail-open/fail-safe。"
 }
