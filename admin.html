@@ -141,6 +141,8 @@ async function loadPending() {
     btn("⛔ 下架（改不公開）", () => patchSticker(s.id, { visibility: "unlisted" }, "已下架"), "danger"),
     holdBtn(s),
   ], "沒有待審項目 🎉");
+  $("list").insertAdjacentHTML("afterbegin",
+    "<p class='muted'>提示：未處置的待審項目將於上傳滿 24 小時後自動放行；被檢舉或標記 legal hold 者不會自動放行。</p>");
 }
 
 // ── 檢舉佇列 ────────────────────────────────────────────────────────────
