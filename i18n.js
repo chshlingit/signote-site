@@ -3,7 +3,7 @@
 (function () {
   var DICT = {
     ja: {
-      nav_how: "使い方", nav_features: "機能", nav_video: "動画サイン", nav_pricing: "価格", nav_support: "サポート",
+      nav_how: "使い方", nav_features: "機能", nav_video: "動画サイン", nav_plaza: "ひろば", nav_pricing: "価格", nav_support: "サポート",
       nav_download: "ダウンロード", nav_terms: "利用規約", nav_privacy: "プライバシー",
       foot_privacy: "プライバシーポリシー", foot_terms: "利用規約", foot_support: "サポート",
       foot_contact: "お問い合わせ", foot_home: "ホーム",
@@ -33,6 +33,13 @@
       v23_li3: "<strong>手描きゆらぎ</strong>——ボイリングラインの動く筆致で、線が手描きアニメのように生き生き。",
       v23_li4: "<strong>書き出して共有</strong>——合成した動画をアルバムに保存、どのアプリへも共有。",
       v23_cap: "動画機能は無料でフル利用できます。無料版の書き出しには SigNote のロゴが入り、「SigNote 動画Pro」の購入でロゴなしで書き出せます。",
+      plaza_h2: "SigNote ひろば",
+      plaza_sub: "手描きの前景を、みんなでシェア。",
+      plaza_li1: "<strong>ひろばを見てまわる</strong>——みんながアップした手描き前景・サイン・ステッカーを眺めて、気に入ったらワンタップでダウンロード。",
+      plaza_li2: "<strong>最新・人気・話題</strong>——カテゴリで絞り込み、人気順で並べ替え。よく使われている素材がすぐ見つかります。",
+      plaza_li3: "<strong>好きな作者をフォロー</strong>——作者名をタップすれば、その人の作品をまとめて見られます。",
+      plaza_li4: "<strong>自分の作品をシェア</strong>——切り抜いた前景をアップして公開、または非公開で自分だけのコレクションに。",
+      plaza_cap: "ひろばの投稿はすべて人の目で審査してから公開。閲覧もダウンロードも無料です。",
       price_h2: "買い切り、サブスクなし", price_sub: "無料ダウンロード、必要な分だけ解除。月額なし・広告なし。",
       plan1_h: "SigNote Pro",
       plan1_list: "<li>SigNoteロゴなしの写真書き出し</li><li>高解像度・一括書き出し</li><li>全フィルター</li><li>追加素材をすべて解除</li>",
@@ -116,7 +123,7 @@
       sup_a7: "いいえ。動画の選択・編集・合成・書き出しはすべて端末内で完結し、動画や作品がサーバーへ送信されることはありません。アカウント不要・広告なし・トラッキングなしです。"
     },
     en: {
-      nav_how: "How it works", nav_features: "Features", nav_video: "Video", nav_pricing: "Pricing", nav_support: "Support",
+      nav_how: "How it works", nav_features: "Features", nav_video: "Video", nav_plaza: "Plaza", nav_pricing: "Pricing", nav_support: "Support",
       nav_download: "Download", nav_terms: "Terms", nav_privacy: "Privacy",
       foot_privacy: "Privacy Policy", foot_terms: "Terms of Use", foot_support: "Support",
       foot_contact: "Contact", foot_home: "Home",
@@ -146,6 +153,13 @@
       v23_li3: "<strong>Hand-drawn wobble</strong> — boiling-line strokes make your lines quiver like hand-drawn animation.",
       v23_li4: "<strong>Export &amp; share</strong> — save the composited video to Photos, or share it straight to any app.",
       v23_cap: "The video feature is fully usable for free; free exports include the SigNote watermark — purchase SigNote Video Pro to export without it.",
+      plaza_h2: "SigNote Plaza",
+      plaza_sub: "Your hand-drawn overlays, now made to share.",
+      plaza_li1: "<strong>Browse for inspiration</strong> — explore hand-drawn overlays, signatures and stickers from the community, and download any of them with one tap.",
+      plaza_li2: "<strong>Latest, Top, Trending</strong> — filter by category and sort by popularity to find what everyone is using.",
+      plaza_li3: "<strong>Follow makers you love</strong> — tap an author's name to see everything they have shared.",
+      plaza_li4: "<strong>Share your own</strong> — upload your cut-out overlays to make them public, or keep them unlisted just for you.",
+      plaza_cap: "Every submission is human-reviewed before it goes public; browsing and downloading are completely free.",
       price_h2: "Pay once, no subscription", price_sub: "Free to download, unlock what you need. No monthly fee, no ads.",
       plan1_h: "SigNote Pro",
       plan1_list: "<li>Photo export without the SigNote watermark</li><li>Hi-res &amp; batch export</li><li>All filters</li><li>Unlock all premium artwork</li>",

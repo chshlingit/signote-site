@@ -137,8 +137,12 @@ section.block .video-copy .sub { text-align: left; margin: 0 0 20px; max-width: 
 .video-shot img { width: 100%; max-width: 360px; height: auto; margin: 0 auto;
   border-radius: 28px; box-shadow: var(--shadow); background: var(--paper-2); }
 .video-shot figcaption { font-size: 13px; color: var(--ink-soft); margin: 12px auto 0; max-width: 360px; }
+/* reverse：圖在左、文案在右（鏡像影片區塊） */
+.video-grid.reverse { grid-template-columns: .9fr 1.1fr; }
 @media (max-width: 760px){
   .video-grid { grid-template-columns: 1fr; gap: 28px; }
+  .video-grid.reverse { grid-template-columns: 1fr; }
+  .video-grid.reverse .video-copy { order: -1; }
 }
 
 /* Showcase — scattered die-cut stickers */
