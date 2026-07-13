@@ -59,6 +59,7 @@
   <nav class="tabs">
     <button id="tab-pending">待審佇列</button>
     <button id="tab-reports" class="secondary">檢舉佇列</button>
+    <button id="tab-mods" class="secondary">管理員</button>
     <button id="refresh" class="secondary">重新整理</button>
   </nav>
   <div id="list"></div>
@@ -121,15 +122,77 @@ function enterApp() {
 // ── 分頁 ────────────────────────────────────────────────────────────────
 $("tab-pending").addEventListener("click", () => { tab = "pending"; styleTabs(); load(); });
 $("tab-reports").addEventListener("click", () => { tab = "reports"; styleTabs(); load(); });
+$("tab-mods").addEventListener("click", () => { tab = "mods"; styleTabs(); load(); });
 $("refresh").addEventListener("click", load);
 function styleTabs() {
   $("tab-pending").className = tab === "pending" ? "" : "secondary";
   $("tab-reports").className = tab === "reports" ? "" : "secondary";
+  $("tab-mods").className = tab === "mods" ? "" : "secondary";
 }
 
 async function load() { $("list").innerHTML = "<p class='muted'>載入中…</p>";
-  try { tab === "pending" ? await loadPending() : await loadReports(); }
-  catch (e) { if (String(e).indexOf("401") < 0) $("list").innerHTML = "<p>載入失敗，請重試。</p>"; }
+  try {
+    if (tab === "pending") await loadPending();
+    else if (tab === "reports") await loadReports();
+    else await loadModerators();
+  } catch (e) { if (String(e).indexOf("401") < 0) $("list").innerHTML = "<p>載入失敗，請重試。</p>"; }
+}
+
+// ── 管理員 ──────────────────────────────────────────────────────────────
+async function loadModerators() {
+  const mods = await (await api("/rest/v1/moderators?select=user_id,note,created_at&order=created_at")).json();
+  // 取這些管理員的作者名（profiles）供顯示；查不到就只顯示 uid。
+  let names = {};
+  if (mods.length) {
+    const ids = mods.map((m) => m.user_id).join(",");
+    const profs = await (await api("/rest/v1/profiles?select=user_id,name&user_id=in.(" + ids + ")")).json();
+    names = Object.fromEntries((profs || []).map((p) => [p.user_id, p.name]));
+  }
+  const myUID = sessionUID();
+  const rowsHTML = mods.map((m) => `
+    <div class="card" style="align-items:center">
+      <div class="meta">
+        <div><strong>${esc(names[m.user_id] || "(未取名)")}</strong>${m.user_id === myUID ? " <span class='tag'>你</span>" : ""}</div>
+        <div class="muted">${esc(m.user_id)}${m.note ? "｜" + esc(m.note) : ""}</div>
+      </div>
+      ${m.user_id === myUID ? "" : `<button class="danger" data-del="${esc(m.user_id)}">移除</button>`}
+    </div>`).join("");
+  $("list").innerHTML = `
+    <p class="muted">管理員可登入本後台審核，且作者名不受保留字限制（可用 SigNote 等）。
+      新增：先請對方在 App 內登入一次 → 到 Supabase Authentication → Users 複製其 User UID → 貼到下方。</p>
+    <div class="card" style="flex-direction:column;align-items:stretch;gap:8px">
+      <input id="mod-uid" placeholder="要新增的使用者 UID（uuid）">
+      <input id="mod-note" placeholder="備註（選填，例：太太）">
+      <button id="mod-add">新增管理員</button>
+    </div>
+    ${rowsHTML || "<p class='muted'>目前只有你一位管理員。</p>"}`;
+  $("mod-add").onclick = addModerator;
+  $("list").querySelectorAll("[data-del]").forEach((b) =>
+    b.onclick = () => removeModerator(b.getAttribute("data-del")));
+}
+
+async function addModerator() {
+  const uid = $("mod-uid").value.trim();
+  if (!/^[0-9a-f-]{36}$/i.test(uid)) { toast("請貼上正確的 UID（uuid 格式）"); return; }
+  const r = await api("/rest/v1/moderators", {
+    method: "POST", body: JSON.stringify({ user_id: uid, note: $("mod-note").value.trim() }),
+    headers: { Prefer: "return=representation" } });
+  const rows = await r.json();
+  if (!r.ok || !Array.isArray(rows) || !rows.length) {
+    toast((rows && rows.message) ? "新增失敗：該 UID 不存在或已是管理員" : "新增失敗"); return; }
+  toast("已新增管理員"); load();
+}
+async function removeModerator(uid) {
+  const r = await api("/rest/v1/moderators?user_id=eq." + uid, {
+    method: "DELETE", headers: { Prefer: "return=representation" } });
+  const rows = await r.json();
+  if (!r.ok || !rows.length) { toast("移除失敗"); return; }
+  toast("已移除"); load();
+}
+
+/// 從 JWT payload 取自己的 uid（sub）——用於在管理員列表標「你」、禁止移除自己。
+function sessionUID() {
+  try { return JSON.parse(atob((session.token || "").split(".")[1])).sub; } catch { return ""; }
 }
 
 // ── 待審佇列 ────────────────────────────────────────────────────────────
